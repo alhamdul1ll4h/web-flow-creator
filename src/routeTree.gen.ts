@@ -9,38 +9,163 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppTranscriptsRouteImport } from './routes/_app.transcripts'
+import { Route as AppStudentsRouteImport } from './routes/_app.students'
+import { Route as AppGradesRouteImport } from './routes/_app.grades'
+import { Route as AppExamsRouteImport } from './routes/_app.exams'
+import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppAttendanceRouteImport } from './routes/_app.attendance'
+import { Route as ApiPublicN8nTranscriptCallbackRouteImport } from './routes/api.public.n8n-transcript-callback'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppTranscriptsRoute = AppTranscriptsRouteImport.update({
+  id: '/transcripts',
+  path: '/transcripts',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppStudentsRoute = AppStudentsRouteImport.update({
+  id: '/students',
+  path: '/students',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGradesRoute = AppGradesRouteImport.update({
+  id: '/grades',
+  path: '/grades',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppExamsRoute = AppExamsRouteImport.update({
+  id: '/exams',
+  path: '/exams',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAttendanceRoute = AppAttendanceRouteImport.update({
+  id: '/attendance',
+  path: '/attendance',
+  getParentRoute: () => AppRoute,
+} as any)
+const ApiPublicN8nTranscriptCallbackRoute =
+  ApiPublicN8nTranscriptCallbackRouteImport.update({
+    id: '/api/public/n8n-transcript-callback',
+    path: '/api/public/n8n-transcript-callback',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/attendance': typeof AppAttendanceRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/exams': typeof AppExamsRoute
+  '/grades': typeof AppGradesRoute
+  '/students': typeof AppStudentsRoute
+  '/transcripts': typeof AppTranscriptsRoute
+  '/api/public/n8n-transcript-callback': typeof ApiPublicN8nTranscriptCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/attendance': typeof AppAttendanceRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/exams': typeof AppExamsRoute
+  '/grades': typeof AppGradesRoute
+  '/students': typeof AppStudentsRoute
+  '/transcripts': typeof AppTranscriptsRoute
+  '/api/public/n8n-transcript-callback': typeof ApiPublicN8nTranscriptCallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_app/attendance': typeof AppAttendanceRoute
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/exams': typeof AppExamsRoute
+  '/_app/grades': typeof AppGradesRoute
+  '/_app/students': typeof AppStudentsRoute
+  '/_app/transcripts': typeof AppTranscriptsRoute
+  '/api/public/n8n-transcript-callback': typeof ApiPublicN8nTranscriptCallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/attendance'
+    | '/dashboard'
+    | '/exams'
+    | '/grades'
+    | '/students'
+    | '/transcripts'
+    | '/api/public/n8n-transcript-callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/attendance'
+    | '/dashboard'
+    | '/exams'
+    | '/grades'
+    | '/students'
+    | '/transcripts'
+    | '/api/public/n8n-transcript-callback'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/login'
+    | '/_app/attendance'
+    | '/_app/dashboard'
+    | '/_app/exams'
+    | '/_app/grades'
+    | '/_app/students'
+    | '/_app/transcripts'
+    | '/api/public/n8n-transcript-callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  ApiPublicN8nTranscriptCallbackRoute: typeof ApiPublicN8nTranscriptCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,21 +173,84 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/transcripts': {
+      id: '/_app/transcripts'
+      path: '/transcripts'
+      fullPath: '/transcripts'
+      preLoaderRoute: typeof AppTranscriptsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/students': {
+      id: '/_app/students'
+      path: '/students'
+      fullPath: '/students'
+      preLoaderRoute: typeof AppStudentsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/grades': {
+      id: '/_app/grades'
+      path: '/grades'
+      fullPath: '/grades'
+      preLoaderRoute: typeof AppGradesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/exams': {
+      id: '/_app/exams'
+      path: '/exams'
+      fullPath: '/exams'
+      preLoaderRoute: typeof AppExamsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/attendance': {
+      id: '/_app/attendance'
+      path: '/attendance'
+      fullPath: '/attendance'
+      preLoaderRoute: typeof AppAttendanceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/api/public/n8n-transcript-callback': {
+      id: '/api/public/n8n-transcript-callback'
+      path: '/api/public/n8n-transcript-callback'
+      fullPath: '/api/public/n8n-transcript-callback'
+      preLoaderRoute: typeof ApiPublicN8nTranscriptCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppAttendanceRoute: typeof AppAttendanceRoute
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppExamsRoute: typeof AppExamsRoute
+  AppGradesRoute: typeof AppGradesRoute
+  AppStudentsRoute: typeof AppStudentsRoute
+  AppTranscriptsRoute: typeof AppTranscriptsRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAttendanceRoute: AppAttendanceRoute,
+  AppDashboardRoute: AppDashboardRoute,
+  AppExamsRoute: AppExamsRoute,
+  AppGradesRoute: AppGradesRoute,
+  AppStudentsRoute: AppStudentsRoute,
+  AppTranscriptsRoute: AppTranscriptsRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  LoginRoute: LoginRoute,
+  ApiPublicN8nTranscriptCallbackRoute: ApiPublicN8nTranscriptCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
