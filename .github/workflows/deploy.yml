@@ -4,20 +4,8 @@ on:
   push:
     branches: ["main"]
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 jobs:
   build-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -34,17 +22,6 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      # ขั้นตอนนี้จะช่วยหาว่าโฟลเดอร์ output ของคุณชื่ออะไร
-      - name: List files to find output
+      # ขั้นตอนนี้จะ "โชว์" ไฟล์ทั้งหมดที่เครื่องสร้างขึ้นมา
+      - name: Show all files after build
         run: ls -R
-
-      - name: Upload Build Artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # หากลองรันแล้วยังพัง ให้เปลี่ยน path นี้เป็น 'dist' หรือ 'client/dist'
-          # แต่ลองใช้ค่านี้ดูก่อนตามมาตรฐาน TanStack Start
-          path: .output/public
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
