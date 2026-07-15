@@ -1,13 +1,8 @@
-// @lovable.dev/vite-tanstack-config already includes the following — do NOT add them manually
-// or the app will break with duplicate plugins:
-//   - tanstackStart, viteReact, tailwindcss, tsConfigPaths, cloudflare (build-only),
-//     componentTagger (dev-only), VITE_* env injection, @ path alias, React/TanStack dedupe,
-//     error logger plugins, and sandbox detection (port/host/strictPort).
-// You can pass additional config via defineConfig({ vite: { ... } }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
   vite: {
-    base: '/web-flow-creator/', // <-- เพิ่มบรรทัดนี้เข้ามาครับ
-  }
+    // ลบ base ออกเพื่อให้ Vite ตรวจจับ Root ของ Vercel เองโดยอัตโนมัติ
+    // วิธีนี้จะช่วยลดปัญหา 404 ที่เกิดจากการใส่ Path ซ้อนกันครับ
+  },
 });
