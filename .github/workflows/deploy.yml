@@ -1,4 +1,4 @@
-name: Deploy Vite Site to GitHub Pages
+name: Deploy TanStack Site to GitHub Pages
 
 on:
   push:
@@ -37,7 +37,8 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          # TanStack Start / Nitro จะเก็บไฟล์ static ไว้ที่ .output/public
+          path: .output/public
 
       - name: Deploy to GitHub Pages
         id: deployment
