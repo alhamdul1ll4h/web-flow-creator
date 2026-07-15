@@ -34,10 +34,15 @@ jobs:
       - name: Build Project
         run: npm run build
 
+      # ขั้นตอนนี้จะช่วยหาว่าโฟลเดอร์ output ของคุณชื่ออะไร
+      - name: List files to find output
+        run: ls -R
+
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # TanStack Start / Nitro จะเก็บไฟล์ static ไว้ที่ .output/public
+          # หากลองรันแล้วยังพัง ให้เปลี่ยน path นี้เป็น 'dist' หรือ 'client/dist'
+          # แต่ลองใช้ค่านี้ดูก่อนตามมาตรฐาน TanStack Start
           path: .output/public
 
       - name: Deploy to GitHub Pages
